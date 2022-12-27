@@ -9,9 +9,6 @@ DT_FORMAT = '%Y-%m-%d_%H-%M-%S'
 
 
 class PepParsePipeline:
-    def __init__(self):
-        self.result_dir = BASE_DIR / 'results'
-        self.result_dir.mkdir(exist_ok=True)
 
     def open_spider(self, spider):
         self.results = defaultdict(int)
@@ -21,10 +18,11 @@ class PepParsePipeline:
         return item
 
     def close_spider(self, spider):
+        result_dir = BASE_DIR / 'results'
+        result_dir.mkdir(exist_ok=True)
         now = dt.datetime.now()
         now_format = now.strftime(DT_FORMAT)
-        filename = FILENAME.format(now_format=now_format)
-        file_path = self.result_dir / filename
+        file_path = result_dir / f'status_summary_{now_format}.csv'
         with open(file_path, 'w', encoding='utf-8') as file:
             writer = csv.writer(file,
                                 dialect=csv.unix_dialect,

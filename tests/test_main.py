@@ -1,3 +1,4 @@
+import os
 import re
 
 import pytest
@@ -33,6 +34,7 @@ def test_run_scrapy(monkeypatch, temp_dir):
     })
     process.crawl(PepSpider)
     process.start()
+
 
     dirs = [
         directory.name for directory in mock_base_dir.iterdir()
